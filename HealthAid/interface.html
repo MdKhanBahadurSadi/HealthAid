@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAid: আপনার স্বাস্থ্য সহযোগী 🩺</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root {
+            --bg-color: #e3f2fd;
+            --card-bg: #ffffff;
+            --text-color: #333d47;
+            --primary-color: #42a5f5;
+            --primary-hover: #1e88e5;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --border-color: #bbdefb;
+            --info-bg: #e3f2fd;
+            --info-text: #2196f3;
+            --success-bg: #e8f5e9;
+            --success-text: #4caf50;
+            --warning-bg: #fff3e0;
+            --warning-text: #ff9800;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a237e;
+            --card-bg: #283593;
+            --text-color: #e3f2fd;
+            --primary-color: #90caf9;
+            --primary-hover: #64b5f6;
+            --shadow-light: rgba(255, 255, 255, 0.05);
+            --shadow-medium: rgba(255, 255, 255, 0.1);
+            --border-color: #5c6bc0;
+            --info-bg: #1a237e;
+            --info-text: #90caf9;
+            --success-bg: #1b5e20;
+            --success-text: #81c784;
+            --warning-bg: #ff6f00;
+            --warning-text: #ffb74d;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+            transition: background-color 0.5s ease-in-out;
+            background: linear-gradient(-45deg, #e3f2fd, #b3e5fc, #e3f2fd);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(-45deg, #1a237e, #283593, #1a237e);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 1;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px var(--shadow-medium);
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-top: 0;
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+            transition: color 0.5s ease;
+        }
+
+        p {
+            color: var(--text-color);
+            text-align: center;
+            font-size: 1.1em;
+            transition: color 0.5s ease;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 20px 0;
+        }
+
+        #symptom-input {
+            width: 100%;
+            min-height: 180px;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            resize: vertical;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #symptom-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(66, 165, 245, 0.3);
+        }
+
+        .disclaimer-container {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-color);
+            font-size: 0.95em;
+        }
+
+        #analyze-button {
+            width: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 8px 20px rgba(66, 165, 245, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        #analyze-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(66, 165, 245, 0.4);
+        }
+
+        #analyze-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.2);
+        }
+
+        .result-item, .expander {
+            border-radius: 16px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+            border: 1px solid var(--border-color);
+        }
+
+        .expander {
+            background-color: var(--card-bg);
+            border-left: 6px solid var(--info-text);
+            overflow: hidden;
+            transition: border-left 0.5s ease-in-out;
+        }
+        
+        #ai-response {
+            white-space: pre-wrap;
+            font-size: 1em;
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .expander-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+        
+        .expander-header:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .probability-score {
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: color 0.5s ease;
+        }
+
+        .expander-header::after {
+            content: '▼';
+            font-size: 1em;
+            transition: transform 0.3s;
+            color: var(--text-color);
+        }
+
+        .expander.open .expander-header::after {
+            transform: rotate(-180deg);
+        }
+
+        .expander-content {
+            display: none;
+            padding: 0 20px 20px;
+            color: var(--text-color);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .expander.open .expander-content {
+            display: block;
+        }
+
+        .alert-box {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .alert-warning {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .alert-success {
+            background-color: var(--success-bg);
+            border: 1px solid var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .alert-info {
+            background-color: var(--info-bg);
+            border: 1px solid var(--info-bg);
+            color: var(--info-text);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-color);
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+            .card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            #analyze-button {
+                padding: 14px;
+                font-size: 1em;
+            }
+        }
+        
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .menu-icon {
+            width: 30px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-icon .bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-color);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-icon.open .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-icon.open .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.open .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: var(--card-bg);
+            box-shadow: 2px 0 15px var(--shadow-light);
+            transition: left 0.3s ease-in-out;
+            padding-top: 80px;
+            z-index: 999;
+        }
+
+        .side-menu.open {
+            left: 0;
+        }
+
+        .side-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-menu li {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .side-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .side-menu a, .dark-mode-toggle-li span {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .side-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .dark-mode-toggle-li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            display: none;
+        }
+
+        .toggle-label {
+            width: 45px;
+            height: 25px;
+            background-color: #ccc;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-label::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch:checked + .toggle-label {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-switch:checked + .toggle-label::after {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="menu-icon" id="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="side-menu" id="side-menu">
+            <ul>
+                <li><a href="#">হোম</a></li>
+                <li><a href="about.html">আমাদের সম্পর্কে</a></li>
+                <li><a href="contract.html">যোগাযোগ</a></li>
+                <li class="dark-mode-toggle-li">
+                    <span>ডার্ক মোড</span>
+                    <input type="checkbox" id="dark-mode-toggle" class="toggle-switch">
+                    <label for="dark-mode-toggle" class="toggle-label"></label>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h1>HealthAid: আপনার স্বাস্থ্য সহযোগী</h1>
+            <p>আপনার স্বাস্থ্য সংক্রান্ত প্রশ্নের জন্য এখানে জিজ্ঞাসা করুন।</p>
+            <label for="symptom-input">আপনার লক্ষণগুলি বর্ণনা করুন (যেমন: জ্বর, কাশি, গলা ব্যথা):</label>
+            <textarea id="symptom-input" placeholder="আমি কয়েকদিন ধরে হালকা জ্বর, শরীর ব্যথা এবং ক্লান্ত অনুভব করছি।" rows="8"></textarea>
+            <div class="disclaimer-container">
+                <input type="checkbox" id="disclaimer-accepted">
+                <label for="disclaimer-accepted">আমি জানি এটি প্রাথমিক ধারণা; চিকিৎসকের পরামর্শ প্রয়োজন</label>
+            </div>
+            <button id="analyze-button">বিশ্লেষণ করুন ✨</button>
+        </div>
+        
+        <div id="results-container"></div>
+        
+        <div class="footer card">
+            <p>⚠️ <strong>গুরুত্বপূর্ণ অস্বীকৃতি:</strong> HealthAid শুধুমাত্র প্রাথমিক তথ্য প্রদানের জন্য তৈরি করা হয়েছে এবং এটি পেশাদার চিকিৎসা পরামর্শ, রোগ নির্ণয় বা চিকিৎসার বিকল্প নয়। আপনার স্বাস্থ্য সম্পর্কিত যে কোনো উদ্বেগের জন্য সর্বদা একজন যোগ্য স্বাস্থ্যসেবা পেশাদারের সাথে পরামর্শ করুন।</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const symptomInput = document.getElementById('symptom-input');
+            const disclaimerCheckbox = document.getElementById('disclaimer-accepted');
+            const analyzeButton = document.getElementById('analyze-button');
+            const resultsContainer = document.getElementById('results-container');
+            const callGeminiAPI = async (prompt) => {
+                const systemPrompt = "You are a helpful assistant that provides general health information. Based on the symptoms, list a few possible common conditions. For each condition, provide a likelihood in percentage (e.g., '65% সম্ভাবনা'), a list of related symptoms, and a simple 'what to do' suggestion. The entire response should be in Bengali. Do not use markdown headers or lists. Each condition should be separated by a double newline. Format each condition as: 'রোগ: [রোগের নাম] | সম্ভাবনা: [শতাংশ]% | লক্ষণ: [সম্পর্কিত লক্ষণ] | করণীয়: [পরামর্শ]'";
+                const userQuery = `আমার লক্ষণগুলো হলো: ${prompt}. এগুলোর উপর ভিত্তি করে কিছু সম্ভাব্য রোগ, তাদের সম্ভাবনা এবং করণীয় পরামর্শ দিন।`;
+                const apiKey = "AIzaSyAEIewovYkHg-JhNue0aH0JfvnI-OrBfwI";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                };
+
+                let retries = 0;
+                const maxRetries = 3;
+                while (retries < maxRetries) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`API call failed with status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                        return text;
+                    } catch (error) {
+                        console.error("API call error:", error);
+                        retries++;
+                        const delay = Math.pow(2, retries) * 1000;
+                        await new Promise(res => setTimeout(res, delay));
+                    }
+                }
+                return null;
+            };
+
+            analyzeButton.addEventListener('click', async () => {
+                const userSymptoms = symptomInput.value.trim();
+                const disclaimerAccepted = disclaimerCheckbox.checked;
+
+                resultsContainer.innerHTML = '';
+
+                if (!disclaimerAccepted) {
+                    showAlert('অনুগ্রহ করে নিশ্চিত করুন যে আপনি স্বীকার করছেন এটি শুধুমাত্র প্রাথমিক ধারণার জন্য এবং চিকিৎসকের পরামর্শ প্রয়োজন।', 'warning');
+                    return;
+                }
+
+                if (!userSymptoms) {
+                    showAlert('অনুগ্রহ করে আপনার লক্ষণগুলি লিখুন।', 'warning');
+                    return;
+                }
+
+                showAlert('আপনার লক্ষণ বিশ্লেষণ করা হচ্ছে...', 'info');
+                
+                const aiResponseText = await callGeminiAPI(userSymptoms);
+
+                resultsContainer.innerHTML = '';
+
+                if (aiResponseText) {
+                    showAlert('বিশ্লেষণ সম্পন্ন হয়েছে।', 'success');
+                    const conditions = aiResponseText.split('\n\n');
+                    conditions.forEach(conditionText => {
+                        const parts = conditionText.split('|').map(part => part.trim());
+                        if (parts.length === 4) {
+                            const conditionName = parts[0].replace('রোগ:', '').trim();
+                            const probability = parts[1].replace('সম্ভাবনা:', '').trim();
+                            const symptoms = parts[2].replace('লক্ষণ:', '').trim();
+                            const advice = parts[3].replace('করণীয়:', '').trim();
+                            
+                            const expanderHtml = `
+                                <div class="expander">
+                                    <div class="expander-header">
+                                        <span>সম্ভাব্য রোগ: <strong>${conditionName}</strong></span>
+                                        <span class="probability-score">${probability}</span>
+                                    </div>
+                                    <div class="expander-content">
+                                        <h4>সম্পর্কিত লক্ষণ:</h4>
+                                        <p>${symptoms}</p>
+                                        <h4>করণীয় পরামর্শ:</h4>
+                                        <p>${advice}</p>
+                                    </div>
+                                </div>
+                            `;
+                            resultsContainer.innerHTML += expanderHtml;
+                        }
+                    });
+                    
+                    setupExpanders();
+                } else {
+                    showAlert('দুঃখিত, বিশ্লেষণের সময় একটি সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।', 'warning');
+                }
+            });
+
+            function showAlert(message, type) {
+                const alertHtml = `<div class="alert-box alert-${type}">${message}</div>`;
+                resultsContainer.insertAdjacentHTML('afterbegin', alertHtml);
+            }
+            
+            function setupExpanders() {
+                document.querySelectorAll('.expander').forEach(expander => {
+                    expander.addEventListener('click', () => {
+                        expander.classList.toggle('open');
+                    });
+                });
+            }
+
+            const menuIcon = document.getElementById('menu-icon');
+            const sideMenu = document.getElementById('side-menu');
+
+            menuIcon.addEventListener('click', () => {
+                sideMenu.classList.toggle('open');
+                menuIcon.classList.toggle('open');
+            });
+
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+                localStorage.setItem('darkMode', darkModeToggle.checked);
+            });
+
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+        });
+    </script>
+</body>
+</html>

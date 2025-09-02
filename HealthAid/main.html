@@ -1,0 +1,242 @@
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAid Splash Screen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></link>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #059669;
+            --accent-color: #dc2626;
+            --background-start: #f8fafc;
+            --background-end: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --success-color: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff, #f1f5f9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 400px;
+            padding: 2rem;
+        }
+        
+        .logo-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .logo {
+            width: 140px;
+            height: 140px;
+            filter: drop-shadow(0 10px 20px rgba(37, 99, 235, 0.15));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .app-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        .progress-container {
+            width: 280px;
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 9999px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .status-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .feature-icon {
+            color: var(--success-color);
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes progressAnimation {
+            0% { width: 0%; }
+            100% { width: 85%; }
+        }
+        
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="splash-screen">
+        <div class="container">
+            <div class="logo-container">
+                <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Shield Background -->
+                    <defs>
+                        <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#2563eb" />
+                            <stop offset="100%" stopColor="#059669" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Shield Shape -->
+                    <path d="M100 40 C130 40 160 60 170 90 C180 120 170 150 150 170 C130 190 110 195 100 195 C90 195 70 190 50 170 C30 150 20 120 30 90 C40 60 70 40 100 40 Z" 
+                          fill="url(#shieldGradient)" />
+                    
+                    <!-- Heartbeat Line -->
+                    <path d="M60 120 L70 120 L75 100 L85 140 L95 80 L105 140 L115 100 L125 120 L140 120" 
+                          stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    
+                    <!-- Cross Symbol -->
+                    <path d="M85 85 L115 115 M115 85 L85 115" 
+                          stroke="white" stroke-width="6" stroke-linecap="round" />
+                </svg>
+            </div>
+            
+            <h1 class="app-name">HealthAid</h1>
+            <p class="tagline">আপনার স্বাস্থ্য ও সুখের জন্য নির্ভরযোগ্য অংশীদার</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <p class="status-text" id="statusText">সিস্টেম ইনিশিয়ালাইজ করা হচ্ছে...</p>
+            
+            <ul class="features-list">
+                <li class="feature-item">
+                    <i class="fas fa-heartbeat feature-icon"></i>
+                    <span>হার্ট মনিটরিং</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-pills feature-icon"></i>
+                    <span>ওষুধ পরিচালনা</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-calendar-check feature-icon"></i>
+                    <span>অ্যাপয়েন্টমেন্ট বুকিং</span>
+                </li>
+                <li class="feature-item">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <span>স্বাস্থ্য রিপোর্ট</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('statusText');
+            
+            const statusMessages = [
+                'সিস্টেম ইনিশিয়ালাইজ করা হচ্ছে...',
+                'ডেটাবেস কানেকশন স্থাপন করা হচ্ছে...',
+                'ব্যবহারকারী প্রোফাইল লোড করা হচ্ছে...',
+                'সিস্টেম প্রস্তুত হচ্ছে...'
+            ];
+            
+            let currentStatusIndex = 0;
+            
+            // Progress bar animation
+            setTimeout(() => {
+                progressBar.style.animation = 'progressAnimation 3s ease-out forwards';
+            }, 500);
+            
+            // Status message updates
+            const statusInterval = setInterval(() => {
+                if (currentStatusIndex < statusMessages.length - 1) {
+                    currentStatusIndex++;
+                    statusText.textContent = statusMessages[currentStatusIndex];
+                } else {
+                    clearInterval(statusInterval);
+                }
+            }, 750);
+            
+            // Complete splash screen and navigate
+            setTimeout(() => {
+                splashScreen.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    window.location.href = 'verification.html';
+                }, 800);
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
