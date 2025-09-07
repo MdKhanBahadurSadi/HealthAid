@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAid: যোগাযোগ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root {
+            --bg-color: #e3f2fd;
+            --card-bg: #ffffff;
+            --text-color: #333d47;
+            --primary-color: #42a5f5;
+            --primary-hover: #1e88e5;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --border-color: #bbdefb;
+            --facebook-color: #1877f2;
+            --whatsapp-color: #25D366;
+            --telegram-color: #0088cc;
+            --imo-color: #40c660;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a237e;
+            --card-bg: #283593;
+            --text-color: #e3f2fd;
+            --primary-color: #90caf9;
+            --primary-hover: #64b5f6;
+            --shadow-light: rgba(255, 255, 255, 0.05);
+            --shadow-medium: rgba(255, 255, 255, 0.1);
+            --border-color: #5c6bc0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+            transition: background-color 0.5s ease-in-out;
+            background: linear-gradient(-45deg, #e3f2fd, #b3e5fc, #e3f2fd);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(-45deg, #1a237e, #283593, #1a237e);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 1;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px var(--shadow-medium);
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-top: 0;
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+            transition: color 0.5s ease;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-color);
+            text-align: justify;
+            font-size: 1.1em;
+            transition: color 0.5s ease;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1em;
+        }
+
+        .contact-item i {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            width: 30px;
+            text-align: center;
+        }
+        
+        .contact-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .social-media a {
+            font-size: 2.5em;
+            color: var(--text-color);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-media a:hover {
+            transform: scale(1.1);
+        }
+
+        .social-media a.facebook:hover { color: var(--facebook-color); }
+        .social-media a.whatsapp:hover { color: var(--whatsapp-color); }
+        .social-media a.telegram:hover { color: var(--telegram-color); }
+        .social-media a.imo:hover { color: var(--imo-color); }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 20px 0;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .menu-icon {
+            width: 30px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-icon .bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-color);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-icon.open .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-icon.open .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.open .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: var(--card-bg);
+            box-shadow: 2px 0 15px var(--shadow-light);
+            transition: left 0.3s ease-in-out;
+            padding-top: 80px;
+            z-index: 999;
+        }
+
+        .side-menu.open {
+            left: 0;
+        }
+
+        .side-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-menu li {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .side-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .side-menu a, .dark-mode-toggle-li span {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .side-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .dark-mode-toggle-li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            display: none;
+        }
+
+        .toggle-label {
+            width: 45px;
+            height: 25px;
+            background-color: #ccc;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-label::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch:checked + .toggle-label {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-switch:checked + .toggle-label::after {
+            transform: translateX(20px);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-color);
+            margin-top: 20px;
+        }
+        
+        .developer-credit {
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6f61, #ff9a8b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+            .card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="menu-icon" id="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="side-menu" id="side-menu">
+            <ul>
+                <li><a href="index.html">হোম</a></li>
+                <li><a href="about.html">আমাদের সম্পর্কে</a></li>
+                <li><a href="#">যোগাযোগ</a></li>
+                <li class="dark-mode-toggle-li">
+                    <span>ডার্ক মোড</span>
+                    <input type="checkbox" id="dark-mode-toggle" class="toggle-switch">
+                    <label for="dark-mode-toggle" class="toggle-label"></label>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h1>HealthAid</h1>
+            <h2>যোগাযোগ</h2>
+            <p style="text-align: center;">আমাদের সাথে যোগাযোগ করতে নিচে দেওয়া তথ্যগুলো ব্যবহার করুন।</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>মোবাইল: <a href="tel:+8801320634246" class="contact-link">01320634246</a>, <a href="tel:+8801568686329" class="contact-link">01568686329</a></span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>ইমেইল: <a href="mailto:khanbahadursadi@gmail.com" class="contact-link">khanbahadursadi@gmail.com</a></span>
+                </div>
+            </div>
+            <hr>
+            <div class="social-media">
+                <a href="https://www.facebook.com/MuhammadKhanBahadurSadi" class="facebook" target="_blank" title="Facebook"><i class="fab fa-facebook-square"></i></a>
+                <a href="https://wa.me/8801320634246" class="whatsapp" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp-square"></i></a>
+                <a href="https://t.me/01320634246" class="telegram" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#" class="imo" title="IMO"><i class="fas fa-comment-dots"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer card">
+            <p>⚠️ <strong>গুরুত্বপূর্ণ অস্বীকৃতি:</strong> HealthAid শুধুমাত্র প্রাথমিক তথ্য প্রদানের জন্য তৈরি করা হয়েছে এবং এটি পেশাদার চিকিৎসা পরামর্শ, রোগ নির্ণয় বা চিকিৎসার বিকল্প নয়। আপনার স্বাস্থ্য সম্পর্কিত যে কোনো উদ্বেগের জন্য সর্বদা একজন যোগ্য স্বাস্থ্যসেবা পেশাদারের সাথে পরামর্শ করুন।</p>
+            <p class="developer-credit">Developed by Md khan Bahadur sadi</p>
+            <p class="developer-credit">First Mechine Learning Project by Md khan Bahadur sadi</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuIcon = document.getElementById('menu-icon');
+            const sideMenu = document.getElementById('side-menu');
+
+            menuIcon.addEventListener('click', () => {
+                sideMenu.classList.toggle('open');
+                menuIcon.classList.toggle('open');
+            });
+
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+                localStorage.setItem('darkMode', darkModeToggle.checked);
+            });
+
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+        });
+    </script>
+</body>
+</html>
