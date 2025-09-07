@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAid: আমাদের সম্পর্কে</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root {
+            --bg-color: #e3f2fd;
+            --card-bg: #ffffff;
+            --text-color: #333d47;
+            --primary-color: #42a5f5;
+            --primary-hover: #1e88e5;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --border-color: #bbdefb;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a237e;
+            --card-bg: #283593;
+            --text-color: #e3f2fd;
+            --primary-color: #90caf9;
+            --primary-hover: #64b5f6;
+            --shadow-light: rgba(255, 255, 255, 0.05);
+            --shadow-medium: rgba(255, 255, 255, 0.1);
+            --border-color: #5c6bc0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+            transition: background-color 0.5s ease-in-out;
+            background: linear-gradient(-45deg, #e3f2fd, #b3e5fc, #e3f2fd);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(-45deg, #1a237e, #283593, #1a237e);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 1;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px var(--shadow-medium);
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-weight: 700;
+            margin-top: 0;
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+            transition: color 0.5s ease;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-color);
+            text-align: justify;
+            font-size: 1.1em;
+            transition: color 0.5s ease;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 20px 0;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .menu-icon {
+            width: 30px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-icon .bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--text-color);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-icon.open .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-icon.open .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.open .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: var(--card-bg);
+            box-shadow: 2px 0 15px var(--shadow-light);
+            transition: left 0.3s ease-in-out;
+            padding-top: 80px;
+            z-index: 999;
+        }
+
+        .side-menu.open {
+            left: 0;
+        }
+
+        .side-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-menu li {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .side-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .side-menu a, .dark-mode-toggle-li span {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .side-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .dark-mode-toggle-li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            display: none;
+        }
+
+        .toggle-label {
+            width: 45px;
+            height: 25px;
+            background-color: #ccc;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-label::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch:checked + .toggle-label {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-switch:checked + .toggle-label::after {
+            transform: translateX(20px);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-color);
+            margin-top: 20px;
+        }
+        
+        .developer-credit {
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6f61, #ff9a8b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .developer-credit.rgb {
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rgb-pulse 4s linear infinite, text-pulse 1.5s infinite;
+        }
+
+        @keyframes text-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rgb-pulse {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+            .card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="menu-icon" id="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="side-menu" id="side-menu">
+            <ul>
+                <li><a href="index.html">হোম</a></li>
+                <li><a href="#">আমাদের সম্পর্কে</a></li>
+                <li><a href="contact.html">যোগাযোগ</a></li>
+                <li class="dark-mode-toggle-li">
+                    <span>ডার্ক মোড</span>
+                    <input type="checkbox" id="dark-mode-toggle" class="toggle-switch">
+                    <label for="dark-mode-toggle" class="toggle-label"></label>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h1>HealthAid</h1>
+            <h2>আমাদের সম্পর্কে</h2>
+            <p>HealthAid একটি এআই-চালিত অ্যাপ্লিকেশন যা আপনাকে স্বাস্থ্য সংক্রান্ত প্রাথমিক তথ্য এবং সম্ভাব্য ঝুঁকির বিষয়ে ধারণা দিতে সাহায্য করে। আমাদের লক্ষ্য হলো আপনাকে আপনার লক্ষণগুলি বুঝতে এবং সঠিক সময়ে পেশাদার চিকিৎসা পরামর্শ নিতে উৎসাহিত করা। আমরা মনে করি, স্বাস্থ্য সম্পর্কিত তথ্য সবার জন্য সহজলভ্য হওয়া উচিত।</p>
+            <p>আমাদের অ্যাপ্লিকেশনটি আপনার দেওয়া লক্ষণগুলো বিশ্লেষণ করে। এটি আপনার তথ্যগুলোকে দ্রুত পর্যালোচনা করে এবং সম্ভাব্য সাধারণ রোগ এবং তাদের সংশ্লিষ্ট লক্ষণ ও করণীয় সম্পর্কে একটি সংক্ষিপ্ত প্রতিবেদন তৈরি করে।</p>
+            <hr>
+            <p><strong>গুরুত্বপূর্ণ সতর্কতা:</strong> অনুগ্রহ করে মনে রাখবেন, HealthAid কোনওভাবেই একজন পেশাদার ডাক্তারের বিকল্প নয়। এটি শুধুমাত্র একটি সহায়ক টুল। আপনার দেওয়া তথ্যের উপর ভিত্তি করে এটি যে বিশ্লেষণ করে, তা কেবল একটি প্রাথমিক ধারণা। সুনির্দিষ্ট রোগ নির্ণয় এবং চিকিৎসার জন্য অবশ্যই একজন যোগ্য চিকিৎসকের সাথে পরামর্শ করুন। কোনো জরুরি স্বাস্থ্য পরিস্থিতিতে অবিলম্বে জরুরি পরিষেবাগুলিতে যোগাযোগ করুন।</p>
+        </div>
+        
+        <div class="footer card">
+            <p>⚠️ <strong>গুরুত্বপূর্ণ অস্বীকৃতি:</strong> HealthAid শুধুমাত্র প্রাথমিক তথ্য প্রদানের জন্য তৈরি করা হয়েছে এবং এটি পেশাদার চিকিৎসা পরামর্শ, রোগ নির্ণয় বা চিকিৎসার বিকল্প নয়। আপনার স্বাস্থ্য সম্পর্কিত যে কোনো উদ্বেগের জন্য সর্বদা একজন যোগ্য স্বাস্থ্যসেবা পেশাদারের সাথে পরামর্শ করুন।</p>
+
+            <p class="developer-credit rgb">First Mechine Learning Project by Md Khan Bahadur Sadi</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuIcon = document.getElementById('menu-icon');
+            const sideMenu = document.getElementById('side-menu');
+
+            menuIcon.addEventListener('click', () => {
+                sideMenu.classList.toggle('open');
+                menuIcon.classList.toggle('open');
+            });
+
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+                localStorage.setItem('darkMode', darkModeToggle.checked);
+            });
+
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+        });
+    </script>
+</body>
+</html>
